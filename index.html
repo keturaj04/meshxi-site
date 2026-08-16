@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeshXi — Private Messenger That Works Without Internet</title>
+<meta name="description" content="MeshXi is a free, end-to-end encrypted messenger that works even without internet — phones connect directly over Bluetooth and Wi-Fi. No phone number, no account, no trace. Download on Google Play.">
+<meta name="theme-color" content="#0A1220">
+<link rel="canonical" href="https://meshxi.in/">
+<meta property="og:title" content="MeshXi — Private Messenger That Works Without Internet">
+<meta property="og:description" content="End-to-end encrypted chats, calls and file sharing — over the internet, or straight phone-to-phone with no network at all. No phone number. No account.">
+<meta property="og:url" content="https://meshxi.in/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232DD4BF'/%3E%3Cstop offset='1' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230A1220'/%3E%3Ccircle cx='18' cy='44' r='5' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='20' r='5' fill='url(%23g)'/%3E%3Ccircle cx='46' cy='44' r='5' fill='url(%23g)'/%3E%3Cpath d='M18 44 32 20 46 44' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "MeshXi",
+  "operatingSystem": "ANDROID",
+  "applicationCategory": "CommunicationApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "description": "End-to-end encrypted messenger that works without internet over Bluetooth and Wi-Fi Direct. No phone number or account required.",
+  "url": "https://meshxi.in/",
+  "installUrl": "https://play.google.com/store/apps/details?id=com.meshxi.app"
+}
+</script>
+<style>
+  :root{
+    --ink:#0A1220;
+    --ink-2:#0D1626;
+    --surface:#111D31;
+    --surface-2:#16243C;
+    --line:#223350;
+    --teal:#2DD4BF;
+    --violet:#8B5CF6;
+    --amber:#F5B84C;
+    --text:#E9EFF8;
+    --muted:#94A3B8;
+    --faint:#64748B;
+    --grad:linear-gradient(100deg,#2DD4BF 0%,#7C6CF6 100%);
+    --mono:ui-monospace,"Cascadia Code","JetBrains Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"Noto Sans",Roboto,Arial,sans-serif;
+    --maxw:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  }
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* film grain — depth without a single asset */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    opacity:.028;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection{background:rgba(45,212,191,.25)}
+  a{color:var(--teal);text-decoration:none}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  ::-webkit-scrollbar{width:11px}
+  ::-webkit-scrollbar-track{background:var(--ink)}
+  ::-webkit-scrollbar-thumb{background:#22334F;border-radius:99px;border:3px solid var(--ink)}
+  ::-webkit-scrollbar-thumb:hover{background:#31517E}
+
+  /* ---------- protocol eyebrow ---------- */
+  .tag{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--teal);
+    display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;
+  }
+  .tag::before{content:"";width:22px;height:1px;background:var(--teal);opacity:.6}
+
+  h1,h2,h3{text-wrap:balance;font-weight:800;letter-spacing:-.02em;line-height:1.12}
+  h2{font-size:clamp(27px,4.2vw,40px);margin-bottom:14px}
+  .lede{color:var(--muted);max-width:62ch;font-size:17.5px}
+  .grad-ink{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  section{padding:96px 0;position:relative;z-index:2}
+  @media(max-width:720px){section{padding:66px 0}}
+
+  /* ---------- scroll progress ---------- */
+  #prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--grad);z-index:60;transition:width .08s linear}
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,18,32,.78);
+    backdrop-filter:blur(16px) saturate(1.4);
+    -webkit-backdrop-filter:blur(16px) saturate(1.4);
+    border-bottom:1px solid rgba(34,51,80,.6);
+  }
+  .nav{display:flex;align-items:center;gap:26px;height:68px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--text);letter-spacing:-.01em}
+  .logo svg{width:28px;height:28px}
+  .nav-links{display:flex;gap:26px;margin-left:auto}
+  .nav-links a{color:var(--muted);font-size:14.5px;font-weight:600;position:relative;transition:color .15s}
+  .nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--grad);transition:right .22s ease;border-radius:2px}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{right:0}
+  .nav-cta{
+    background:var(--grad);color:#07131f;font-weight:700;font-size:14.5px;
+    padding:10px 20px;border-radius:999px;white-space:nowrap;
+    box-shadow:0 4px 18px rgba(45,212,191,.28);
+    transition:transform .15s,box-shadow .15s;
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(45,212,191,.4)}
+  .menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--text);cursor:pointer;font-size:15px}
+  @media(max-width:860px){
+    .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--ink-2);border-bottom:1px solid var(--line);flex-direction:column;padding:18px 22px;gap:16px}
+    .nav-links.open{display:flex}
+    .nav-links a::after{display:none}
+    .menu-btn{display:block}
+    .nav-cta{margin-left:0}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:100px 0 84px;overflow:hidden}
+  #mesh{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.5}
+  .orb.a{width:480px;height:480px;left:-160px;top:-120px;background:radial-gradient(circle,rgba(45,212,191,.35),transparent 65%);animation:drift 16s ease-in-out infinite alternate}
+  .orb.b{width:520px;height:520px;right:-180px;bottom:-200px;background:radial-gradient(circle,rgba(124,108,246,.32),transparent 65%);animation:drift 19s ease-in-out infinite alternate-reverse}
+  @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,40px) scale(1.12)}}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;z-index:2}
+  @media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:48px}}
+  .hero h1{font-size:clamp(36px,5.9vw,62px);margin:14px 0 20px}
+  .hero .sub{color:var(--muted);font-size:18.5px;max-width:56ch;margin-bottom:32px}
+  .hero .sub strong{color:var(--text);font-weight:600}
+  @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  .hi{opacity:0;animation:up .7s cubic-bezier(.2,.7,.2,1) forwards}
+  .hi.d1{animation-delay:.05s}.hi.d2{animation-delay:.15s}.hi.d3{animation-delay:.28s}.hi.d4{animation-delay:.42s}.hi.d5{animation-delay:.55s}
+  .strike{position:relative;white-space:nowrap}
+  .strike::after{
+    content:"";position:absolute;left:-2%;top:54%;height:3px;width:0;background:var(--amber);
+    border-radius:2px;transform:rotate(-2deg);
+    animation:strike .5s ease-out .9s forwards;
+  }
+  @keyframes strike{to{width:104%}}
+  .badges{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch}
+  .badge{
+    display:flex;align-items:center;gap:12px;border-radius:14px;padding:12px 20px;min-width:190px;
+    border:1px solid var(--line);position:relative;overflow:hidden;
+    transition:transform .15s,border-color .15s,box-shadow .15s;
+  }
+  .badge .b-icon{width:28px;height:28px;flex:none}
+  .badge .b-top{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .badge .b-name{font-size:17px;font-weight:700;line-height:1.2;color:var(--text)}
+  .badge.play{background:var(--surface);border-color:#2b4266}
+  .badge.play::after{
+    content:"";position:absolute;top:0;bottom:0;width:46px;left:-70px;
+    background:linear-gradient(100deg,transparent,rgba(233,239,248,.14),transparent);
+    transform:skewX(-18deg);transition:left .5s ease;
+  }
+  .badge.play:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:0 10px 30px rgba(45,212,191,.18)}
+  .badge.play:hover::after{left:calc(100% + 70px)}
+  .badge.ios{background:transparent;opacity:.65;cursor:default}
+  .badge.ios .soon{
+    position:absolute;top:-1px;right:12px;transform:translateY(-50%);
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    background:var(--amber);color:#0A1220;font-weight:700;padding:2px 8px;border-radius:999px;
+  }
+  .hero-note{margin-top:18px;font-size:13.5px;color:var(--faint)}
+  .hero-note b{color:var(--muted)}
+
+  /* phone mockup */
+  .phone-wrap{position:relative;width:min(300px,84vw);margin:0 auto}
+  .phone-wrap::before{
+    content:"";position:absolute;inset:-30px;border-radius:60px;
+    background:radial-gradient(closest-side,rgba(45,212,191,.16),transparent 75%);
+    pointer-events:none;
+  }
+  .phone{
+    position:relative;border-radius:36px;border:1px solid #2b4266;
+    background:linear-gradient(180deg,#0F1B30,#0B1526);
+    box-shadow:0 34px 90px rgba(0,0,0,.6),0 0 0 8px rgba(17,29,49,.6);
+    padding:14px 12px 18px;
+  }
+  .phone::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:84px;height:6px;border-radius:99px;background:#1c2c47}
+  .p-head{display:flex;align-items:center;gap:10px;padding:18px 8px 12px;border-bottom:1px solid #1a2a45}
+  .p-ava{width:34px;height:34px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#07131f;font-size:15px}
+  .p-name{font-weight:700;font-size:14.5px;line-height:1.15}
+  .p-status{font-family:var(--mono);font-size:10.5px;color:var(--amber);letter-spacing:.06em}
+  .p-body{padding:14px 6px 6px;display:flex;flex-direction:column;gap:9px;min-height:280px}
+  .bub{
+    max-width:82%;padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;
+    opacity:0;transform:translateY(12px) scale(.96);
+    transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .bub.show{opacity:1;transform:none}
+  .bub.them{background:#1A2A45;border-bottom-left-radius:5px;align-self:flex-start}
+  .bub.me{background:linear-gradient(120deg,rgba(45,212,191,.22),rgba(124,108,246,.22));border:1px solid rgba(45,212,191,.35);border-bottom-right-radius:5px;align-self:flex-end}
+  .bub .meta{display:flex;gap:5px;align-items:center;font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-top:5px}
+  .tick{color:var(--teal);font-size:11px;letter-spacing:-2px}
+  .p-chip{
+    align-self:center;font-family:var(--mono);font-size:10px;color:var(--amber);
+    border:1px solid rgba(245,184,76,.4);border-radius:99px;padding:3px 10px;letter-spacing:.08em;
+    opacity:0;transition:opacity .5s ease;
+  }
+  .p-chip.show{opacity:1}
+  .typing{display:inline-flex;gap:4px;align-items:center;padding:11px 14px}
+  .typing i{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:tp 1s infinite}
+  .typing i:nth-child(2){animation-delay:.15s}
+  .typing i:nth-child(3){animation-delay:.3s}
+  @keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  /* ---------- trust strip ---------- */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink-2);padding:26px 0;position:relative;z-index:2}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:820px){.strip .wrap{grid-template-columns:repeat(2,1fr)}}
+  .strip .item{display:flex;gap:12px;align-items:center}
+  .strip .item svg{width:26px;height:26px;flex:none;color:var(--teal)}
+  .strip .item b{display:block;font-size:14.5px}
+  .strip .item span{font-size:12.5px;color:var(--muted)}
+
+  /* ---------- marquee ---------- */
+  .marquee{overflow:hidden;border-bottom:1px solid var(--line);background:var(--ink);padding:14px 0;position:relative;z-index:2}
+  .m-track{display:flex;gap:0;width:max-content;animation:mq 36s linear infinite}
+  .marquee:hover .m-track{animation-play-state:paused}
+  @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .m-set{display:flex;gap:48px;padding-right:48px;font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;color:var(--faint);white-space:nowrap}
+  .m-set b{color:var(--teal);font-weight:600}
+
+  /* ---------- cards / grids ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
+  @media(max-width:900px){.grid3,.grid4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid3,.grid4{grid-template-columns:1fr}}
+  .card{
+    position:relative;border-radius:18px;padding:24px 22px;
+    background:
+      linear-gradient(var(--surface),var(--surface)) padding-box,
+      linear-gradient(150deg,#2b4266,#182741 45%,#182741 60%,#2b4266) border-box;
+    border:1px solid transparent;
+    transition:transform .18s;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(45,212,191,.10),transparent 70%);
+    opacity:0;transition:opacity .25s;
+  }
+  .card:hover{transform:translateY(-3px)}
+  .card:hover::before{opacity:1}
+  .card .ic{width:38px;height:38px;border-radius:11px;background:rgba(45,212,191,.12);display:grid;place-items:center;margin-bottom:14px}
+  .card .ic svg{width:20px;height:20px;color:var(--teal)}
+  .card h3{font-size:16.5px;margin-bottom:7px;font-weight:700;letter-spacing:-.01em}
+  .card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+  /* ---------- stats band ---------- */
+  .stats{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:46px 0;position:relative;z-index:2}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  @media(max-width:820px){.stats .wrap{grid-template-columns:repeat(2,1fr);gap:32px}}
+  .stat b{
+    display:block;font-size:clamp(30px,4.4vw,44px);font-weight:800;letter-spacing:-.02em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat span{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--faint)}
+
+  /* ---------- how it works ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px;counter-reset:step}
+  @media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr}}
+  .step{
+    position:relative;border-radius:18px;padding:26px 22px 22px;overflow:hidden;
+    background:
+      linear-gradient(var(--surface),var(--surface)) padding-box,
+      linear-gradient(150deg,#2b4266,#182741 50%,#2b4266) border-box;
+    border:1px solid transparent;
+  }
+  .step::before{
+    counter-increment:step;content:counter(step,decimal-leading-zero);
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--violet);
+    display:block;margin-bottom:12px;
+  }
+  .step h3{font-size:16px;margin-bottom:7px}
+  .step p{font-size:13.5px;color:var(--muted)}
+  .step .code{font-family:var(--mono);color:var(--teal);font-size:13px}
+
+  /* ---------- offline diagram ---------- */
+  .relaybox{
+    margin-top:38px;background:var(--ink-2);border:1px solid var(--line);border-radius:20px;
+    padding:36px 26px;overflow-x:auto;position:relative;
+  }
+  .relaybox::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(500px 200px at 50% 0%,rgba(45,212,191,.06),transparent 70%);
+  }
+  .relay{display:flex;align-items:center;justify-content:center;gap:0;min-width:560px;position:relative}
+  .node{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+  .node .dot{width:54px;height:54px;border-radius:50%;background:var(--surface-2);border:1px solid #31517e;display:grid;place-items:center;position:relative}
+  .node .dot svg{width:24px;height:24px;color:var(--teal)}
+  .node.you .dot::after,.node.frnd .dot::after{
+    content:"";position:absolute;inset:-7px;border-radius:50%;
+    border:1px solid rgba(45,212,191,.5);animation:pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.35);opacity:0}}
+  .node b{font-size:13px}
+  .node span{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em}
+  .hop{flex:1;min-width:64px;height:2px;position:relative;margin:0 8px 34px;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 16px);opacity:.7}
+  .hop::after{
+    content:attr(data-l);position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.08em;white-space:nowrap;
+  }
+  .hop::before{
+    content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;
+    background:var(--teal);box-shadow:0 0 12px rgba(45,212,191,.9);
+    animation:packet 2.8s linear infinite;
+  }
+  .hop:nth-child(4)::before{animation-delay:.9s}
+  .hop:nth-child(6)::before{animation-delay:1.8s}
+  @keyframes packet{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+  .relay-note{margin-top:22px;text-align:center;font-size:13.5px;color:var(--muted);max-width:70ch;margin-left:auto;margin-right:auto;position:relative}
+
+  /* ---------- privacy ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;margin-top:34px}
+  @media(max-width:860px){.split{grid-template-columns:1fr}}
+  .plist{list-style:none;display:flex;flex-direction:column;gap:15px}
+  .plist li{display:flex;gap:13px;font-size:15px}
+  .plist li svg{width:20px;height:20px;flex:none;margin-top:3px;color:var(--teal)}
+  .plist li b{font-weight:700}
+  .plist li p{color:var(--muted);font-size:14px;margin-top:2px}
+  .cantsee{
+    border-radius:18px;padding:26px;position:relative;overflow:hidden;
+    background:
+      linear-gradient(var(--surface),var(--surface)) padding-box,
+      linear-gradient(160deg,rgba(245,184,76,.5),#223350 40%,#223350 70%,rgba(45,212,191,.5)) border-box;
+    border:1px solid transparent;
+  }
+  .cantsee h3{font-size:15px;margin-bottom:14px;font-family:var(--mono);font-weight:600;letter-spacing:.1em;color:var(--amber)}
+  .cantsee ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .cantsee li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:var(--muted)}
+  .cantsee li::before{content:"✕";color:var(--amber);font-weight:700;font-size:13px}
+  .cantsee .yes{color:var(--text)}
+  .cantsee .yes::before{content:"✓";color:var(--teal)}
+
+  /* ---------- use cases ---------- */
+  .chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .chip{
+    font-size:14px;color:var(--text);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+    transition:border-color .15s,transform .15s;
+  }
+  .chip:hover{border-color:var(--teal);transform:translateY(-1px)}
+  .chip b{color:var(--teal);font-family:var(--mono);font-size:12px;margin-right:6px}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:780px;margin:34px auto 0}
+  details{border-bottom:1px solid var(--line)}
+  summary{
+    cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;
+    padding:20px 4px;font-weight:700;font-size:16px;transition:color .15s;
+  }
+  summary:hover{color:var(--teal)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--mono);color:var(--teal);font-size:20px;flex:none;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 4px 22px;color:var(--muted);font-size:15px;max-width:68ch;animation:up .35s ease both}
+
+  /* ---------- CTA band ---------- */
+  .cta-band{
+    text-align:center;position:relative;overflow:hidden;
+    background:
+      radial-gradient(700px 340px at 50% 0%,rgba(45,212,191,.15),transparent 70%),
+      radial-gradient(500px 300px at 80% 100%,rgba(124,108,246,.12),transparent 70%),
+      var(--ink-2);
+    border-top:1px solid var(--line);
+  }
+  .cta-band h2{font-size:clamp(30px,5vw,48px)}
+  .cta-band .lede{margin:0 auto 32px}
+  .cta-band .badges{justify-content:center}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:40px 0 48px;background:var(--ink);position:relative;z-index:2}
+  .f-row{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+  .f-links{display:flex;gap:22px;flex-wrap:wrap}
+  .f-links a{color:var(--muted);font-size:14px;transition:color .15s}
+  .f-links a:hover{color:var(--text)}
+  .f-copy{color:var(--faint);font-size:13px}
+  .f-copy .mono{font-family:var(--mono);font-size:12px}
+  .f-status{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--faint);
+  }
+  .f-status i{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px rgba(45,212,191,.9);animation:blink 2.2s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* ---------- reveal ---------- */
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div id="prog" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="MeshXi home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#101D31"/><circle cx="18" cy="44" r="5" fill="url(#lg)"/><circle cx="32" cy="20" r="5" fill="url(#lg)"/><circle cx="46" cy="44" r="5" fill="url(#lg)"/><path d="M18 44 32 20 46 44" stroke="url(#lg)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      MeshXi
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#offline">Offline mesh</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.meshxi.app">Get the app</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <canvas id="mesh" aria-hidden="true"></canvas>
+    <div class="orb a" aria-hidden="true"></div>
+    <div class="orb b" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <span class="tag hi d1">RADIO/BLE · LANE/WIFI-DIRECT · NET/RELAY</span>
+        <h1 class="hi d2">The messenger that works when the <span class="strike">internet</span> doesn&rsquo;t.</h1>
+        <p class="sub hi d3">
+          Private, <strong>end-to-end encrypted</strong> chats, calls and file sharing —
+          over the internet when you have it, and <strong>straight phone-to-phone over
+          Bluetooth and Wi&#8209;Fi</strong> when you don&rsquo;t.
+          No phone number. No account. No trace.
+        </p>
+        <div class="badges hi d4">
+          <a class="badge play" href="https://play.google.com/store/apps/details?id=com.meshxi.app" aria-label="Get MeshXi on Google Play">
+            <svg class="b-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#2DD4BF" d="M3.6 1.8 13.9 12 3.6 22.2c-.4-.3-.6-.8-.6-1.4V3.2c0-.6.2-1.1.6-1.4Z"/><path fill="#7C6CF6" d="m17.4 8.5-3.5 3.5 3.5 3.5 3.9-2.2c1-.6 1-1.9 0-2.5l-3.9-2.3Z"/><path fill="#5EEAD4" d="M13.9 12 3.6 1.8c.3-.2.8-.3 1.3 0l12.5 6.7-3.5 3.5Z"/><path fill="#A78BFA" d="m13.9 12 3.5 3.5-12.5 6.7c-.5.3-1 .2-1.3 0L13.9 12Z"/></svg>
+            <span><span class="b-top">Get it on</span><br><span class="b-name">Google Play</span></span>
+          </a>
+          <span class="badge ios" aria-label="App Store version coming soon">
+            <span class="soon">COMING SOON</span>
+            <svg class="b-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#94A3B8" d="M16.4 12.9c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.9-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3.1 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.7-3.8ZM14 5.6c.7-.8 1.1-1.9 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/></svg>
+            <span><span class="b-top">Soon on the</span><br><span class="b-name">App Store</span></span>
+          </span>
+        </div>
+        <p class="hero-note hi d5">Free · No ads · <b>Android 8.0+</b> · Made for the moments networks fail</p>
+      </div>
+
+      <div class="phone-wrap hi d3">
+        <div class="phone" id="phone" aria-hidden="true">
+          <div class="p-head">
+            <div class="p-ava">R</div>
+            <div>
+              <div class="p-name">Raju</div>
+              <div class="p-status">NEARBY · BLUETOOTH</div>
+            </div>
+          </div>
+          <div class="p-body">
+            <div class="p-chip" data-seq="0">NO INTERNET · MESH ACTIVE</div>
+            <div class="bub them" data-seq="1">Network&rsquo;s gone on the whole street 😅</div>
+            <div class="bub me" data-seq="2">We&rsquo;re still talking though. <div class="meta">mesh · 21:04 <span class="tick">✓✓</span></div></div>
+            <div class="bub them typing" data-seq="3"><i></i><i></i><i></i></div>
+            <div class="bub them" data-seq="4">Send the trek photos when we&rsquo;re close?</div>
+            <div class="bub me" data-seq="5">Sending full quality over Wi&#8209;Fi Direct 📸 <div class="meta">lane · 21:05 <span class="tick">✓✓</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <div class="strip">
+    <div class="wrap">
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <div><b>End-to-end encrypted</b><span>Only you two can read it</span></div>
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/><path d="M2 3l20 18" stroke="#F5B84C"/></svg>
+        <div><b>No phone number</b><span>No account, no sign-up</span></div>
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 8l10 8M17 8L7 16M12 2v20" stroke-linecap="round"/></svg>
+        <div><b>Works offline</b><span>Bluetooth + Wi-Fi Direct mesh</span></div>
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div><b>Free forever</b><span>No ads, no data selling</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="m-track">
+      <div class="m-set"><span><b>E2E</b> ENCRYPTED</span><span><b>BLE</b> MESH RELAY</span><span><b>WIFI-DIRECT</b> FAST LANE</span><span><b>0</b> PHONE NUMBERS</span><span><b>0</b> ADS</span><span><b>SEALED</b> SENDER</span><span><b>AES-256</b> VAULT</span><span><b>SHA-256</b> INTEGRITY</span><span><b>100</b> MEMBER GROUPS</span><span><b>PANIC</b> DELETE</span></div>
+      <div class="m-set"><span><b>E2E</b> ENCRYPTED</span><span><b>BLE</b> MESH RELAY</span><span><b>WIFI-DIRECT</b> FAST LANE</span><span><b>0</b> PHONE NUMBERS</span><span><b>0</b> ADS</span><span><b>SEALED</b> SENDER</span><span><b>AES-256</b> VAULT</span><span><b>SHA-256</b> INTEGRITY</span><span><b>100</b> MEMBER GROUPS</span><span><b>PANIC</b> DELETE</span></div>
+    </div>
+  </div>
+
+  <!-- ============ WHAT IS ============ -->
+  <section id="what">
+    <div class="wrap">
+      <span class="tag rv">SPEC/OVERVIEW</span>
+      <h2 class="rv">What is <span class="grad-ink">MeshXi</span>?</h2>
+      <p class="lede rv">
+        MeshXi is a private messenger built for the real world — where networks jam, data packs run out,
+        and sometimes you just don&rsquo;t want to be tracked. When the internet is up, it&rsquo;s a fast, modern
+        messenger. When it&rsquo;s down, your phones find each other directly and keep talking.
+      </p>
+      <div class="grid3">
+        <div class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 7-7M19 12a7 7 0 0 1-7 7" stroke-linecap="round"/></svg></div>
+          <h3>Anonymous by design</h3>
+          <p>You are a code name like <span style="font-family:var(--mono);color:var(--teal)">aTDqwA</span> — generated on your phone, tied to nothing. No number, no email, nothing that links back to you.</p>
+        </div>
+        <div class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 8l10 8M17 8L7 16M12 2v20" stroke-linecap="round"/></svg></div>
+          <h3>Offline-first</h3>
+          <p>Messages hop phone-to-phone over Bluetooth. Big photos and videos take the Wi-Fi Direct fast lane. No tower, no router, no problem.</p>
+        </div>
+        <div class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Encrypted everything</h3>
+          <p>Every message, call, photo and voice note is sealed on your phone and opened only on your friend&rsquo;s. Relays — ours included — carry ciphertext they can never read.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat rv"><b><span class="count" data-to="3">0</span></b><span>RADIOS, ONE APP</span></div>
+      <div class="stat rv"><b><span class="count" data-to="0">0</span></b><span>SERVERS HOLDING YOUR CHATS</span></div>
+      <div class="stat rv"><b><span class="count" data-to="100">0</span></b><span>MEMBERS PER GROUP</span></div>
+      <div class="stat rv"><b><span class="count" data-to="24">0</span></b><span>WORDS TO CARRY YOUR IDENTITY</span></div>
+    </div>
+  </div>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how" style="background:var(--ink-2);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="tag rv">FLOW/FIRST-RUN</span>
+      <h2 class="rv">Up and running in a minute</h2>
+      <p class="lede rv">No OTP. No contact-list upload. No permissions drama. Install, and you&rsquo;re in.</p>
+      <div class="steps">
+        <div class="step rv">
+          <h3>Install MeshXi</h3>
+          <p>Get it free on Google Play. Open it — that&rsquo;s the whole sign-up.</p>
+        </div>
+        <div class="step rv">
+          <h3>Meet your code name</h3>
+          <p>The app hands you an anonymous handle like <span class="code">QR7X2A</span>. Add a display name if you want — or don&rsquo;t.</p>
+        </div>
+        <div class="step rv">
+          <h3>Add a friend</h3>
+          <p>Scan each other&rsquo;s QR (even from a photo), type a 90-second code, or tap them in the Nearby list. Once is enough — forever.</p>
+        </div>
+        <div class="step rv">
+          <h3>Talk anywhere</h3>
+          <p>Chat, call, share photos and voice notes — online or fully offline. The app picks the best path by itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFLINE MESH ============ -->
+  <section id="offline">
+    <div class="wrap">
+      <span class="tag rv">MESH/STORE-CARRY-FORWARD</span>
+      <h2 class="rv">No network? Your phones <span class="grad-ink">become</span> the network.</h2>
+      <p class="lede rv">
+        Every MeshXi phone is a node. Messages leap directly between nearby phones over Bluetooth,
+        hop through friends-of-friends, and can even be carried across town in a pocket — delivered
+        the moment a path to your friend appears. Big files switch to Wi-Fi Direct at real Wi-Fi speed,
+        and phones on the same network use it automatically.
+      </p>
+      <div class="relaybox rv">
+        <div class="relay">
+          <div class="node you">
+            <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+            <b>You</b><span>SENDS</span>
+          </div>
+          <div class="hop" data-l="BLE MESH"></div>
+          <div class="node">
+            <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+            <b>Any phone</b><span>RELAYS · CAN&rsquo;T READ</span>
+          </div>
+          <div class="hop" data-l="CARRIED"></div>
+          <div class="node">
+            <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+            <b>Any phone</b><span>RELAYS · CAN&rsquo;T READ</span>
+          </div>
+          <div class="hop" data-l="WI-FI DIRECT"></div>
+          <div class="node frnd">
+            <div class="dot" style="border-color:var(--teal)"><svg viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="1.8"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+            <b>Your friend</b><span>ONLY READER</span>
+          </div>
+        </div>
+        <p class="relay-note">
+          Relaying phones move sealed envelopes only — they can&rsquo;t open them, and messages that can&rsquo;t
+          be delivered yet wait safely and retry on their own. Honest range: Bluetooth reaches tens of metres
+          per hop; more MeshXi phones around you = further reach.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section id="features" style="background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="tag rv">SPEC/FEATURES</span>
+      <h2 class="rv">Everything a messenger should be</h2>
+      <p class="lede rv">Modern, complete, and fast — with powers no ordinary app has.</p>
+      <div class="grid4">
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l2-5.6A8.5 8.5 0 1 1 21 11.5Z"/></svg></div><h3>Rich chats</h3><p>Replies, forwards, pins, *bold* and _italic_ that style live as you type, disappearing messages.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 19c1-3 3.5-4.5 6.5-4.5s5.5 1.5 6.5 4.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 14.7c2.6.2 4.8 1.5 5.8 4.3"/></svg></div><h3>Groups up to 100</h3><p>Multiple admins, announcement mode, member controls — Telegram-grade rules, zero servers holding your group.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l6-2v18l-6-2M3 8h12v8H3z" stroke-linejoin="round"/></svg></div><h3>Encrypted calls</h3><p>Voice and video calls, screen-friendly quality, voice-to-video switch mid-call — all end-to-end encrypted.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div><h3>Walkie-talkie</h3><p>Hold, speak, release — your voice plays out loud on the group&rsquo;s phones instantly. Works on pure Bluetooth.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16" stroke="#F5B84C"/></svg></div><h3>Voice disguise</h3><p>Flip one switch and your voice notes and calls go out in a completely different voice. Your real voice never leaves.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z" stroke-linejoin="round"/></svg></div><h3>Media fast lanes</h3><p>Full-quality photos and videos fly over Wi-Fi Direct or your LAN — the app routes every transfer down the fastest path itself.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6l8-3Z"/><path d="M12 8v5m0 3v.5" stroke-linecap="round"/></svg></div><h3>Emergency SOS</h3><p>One press broadcasts a help alert with your location to your people — over the internet and the mesh at once.</p></div>
+        <div class="card rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 4v8m6-8v8M5 6l1 14h12l1-14"/></svg></div><h3>Panic delete</h3><p>One action wipes messages, contacts and your identity from the device beyond recovery. Triple-tap the logo for silent wipe.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY ============ -->
+  <section id="privacy">
+    <div class="wrap">
+      <span class="tag rv">VAULT/SEALED-SENDER</span>
+      <h2 class="rv">Privacy isn&rsquo;t a feature. It&rsquo;s the foundation.</h2>
+      <div class="split">
+        <ul class="plist">
+          <li class="rv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <div><b>End-to-end encryption, always on.</b><p>Modern cryptography (X25519 + authenticated encryption) seals every message on your device. There is no unencrypted mode.</p></div>
+          </li>
+          <li class="rv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg>
+            <div><b>Your identity is a key, not a number.</b><p>Generated on your phone, backed by a 24-word recovery phrase only you hold. We couldn&rsquo;t identify you even if asked.</p></div>
+          </li>
+          <li class="rv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+            <div><b>Traffic that tells no stories.</b><p>Messages are padded and shaped so even their sizes leak nothing. Cover-traffic stealth keeps watchers guessing when you&rsquo;re silent.</p></div>
+          </li>
+          <li class="rv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg>
+            <div><b>Encrypted vault on your phone.</b><p>Your history lives in an AES-256 encrypted database, locked by your PIN or biometrics. Not on our servers — we don&rsquo;t have storage servers.</p></div>
+          </li>
+        </ul>
+        <div class="cantsee rv">
+          <h3>WHAT MESHXI CAN SEE</h3>
+          <ul>
+            <li>Your phone number — none exists</li>
+            <li>Your contacts — never uploaded</li>
+            <li>Your messages — sealed end-to-end</li>
+            <li>Your location — never collected</li>
+            <li>Who you talk to offline — no server involved at all</li>
+            <li class="yes">A random handle, online, only while relaying — that&rsquo;s it</li>
+          </ul>
+          <p style="margin-top:16px;font-size:13px;color:var(--faint)">
+            Full details in the <a href="https://meshxi-relay.meshxi.workers.dev/privacy">Privacy Policy</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ USE CASES ============ -->
+  <section id="uses" style="padding-top:0">
+    <div class="wrap">
+      <span class="tag rv">FIELD/USE-CASES</span>
+      <h2 class="rv">Built for the moments that matter</h2>
+      <div class="chips">
+        <span class="chip rv"><b>TREK</b> Mountains with zero bars</span>
+        <span class="chip rv"><b>FLIGHT</b> Row 12 to row 31, mid-air</span>
+        <span class="chip rv"><b>FEST</b> Crowds that crush the network</span>
+        <span class="chip rv"><b>CAMPUS</b> Hostel to hostel, data-free</span>
+        <span class="chip rv"><b>OUTAGE</b> When the grid goes down</span>
+        <span class="chip rv"><b>DISASTER</b> First minutes, no towers</span>
+        <span class="chip rv"><b>PRIVACY</b> Any day you&rsquo;d rather not be watched</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" style="background:var(--ink-2);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="tag rv">HELP/FAQ</span>
+      <h2 class="rv" style="text-align:center">Questions, answered straight</h2>
+      <div class="faq">
+        <details class="rv">
+          <summary>How can it work without internet — really?</summary>
+          <p>Your phone&rsquo;s Bluetooth and Wi-Fi radios can talk directly to nearby phones — no tower needed. MeshXi uses Bluetooth to find MeshXi phones around you and pass small messages along, and Wi-Fi Direct to move big photos and videos at real Wi-Fi speed. Messages for someone out of reach wait safely and deliver the moment a path appears — including hitching a ride on the internet when it returns.</p>
+        </details>
+        <details class="rv">
+          <summary>How far does offline messaging reach?</summary>
+          <p>Honestly: one Bluetooth hop covers tens of metres, more in the open. But every MeshXi phone extends the mesh — your message can hop through phones between you and your friend, and even be physically carried and delivered later. The more people install MeshXi, the further everyone reaches.</p>
+        </details>
+        <details class="rv">
+          <summary>Is it really private? Prove it.</summary>
+          <p>Every message is encrypted on your device with keys only you and your friend hold; relays move sealed envelopes they cannot open. There is no phone number, no account and no contact upload, so there is nothing to link a handle to a person. Message sizes are padded so even traffic patterns leak nothing. And your on-phone history sits in an AES-256 encrypted vault behind your PIN or fingerprint.</p>
+        </details>
+        <details class="rv">
+          <summary>Why does it ask for Bluetooth and location permissions?</summary>
+          <p>Android requires the Nearby/Bluetooth permission to discover phones around you, and on older Androids (11 and below) the OS bundles Bluetooth scanning under the location permission — that&rsquo;s an Android rule, not our choice. MeshXi never reads or transmits your location, with one exception you control: the Emergency SOS button includes your coordinates in the alert so your people can find you.</p>
+        </details>
+        <details class="rv">
+          <summary>Will it drain my battery?</summary>
+          <p>MeshXi uses Bluetooth Low Energy — the same tech as your smartwatch — and automatically slows its scanning when your battery is low. Wi-Fi Direct powers up only for the seconds a big file is moving, then shuts off.</p>
+        </details>
+        <details class="rv">
+          <summary>What happens if I lose my phone?</summary>
+          <p>Your identity is protected by a 24-word recovery phrase (Settings → Identity) — write it down and keep it offline. With it, you can restore your identity on a new phone. Without your PIN or fingerprint, the encrypted vault on the lost phone stays locked.</p>
+        </details>
+        <details class="rv">
+          <summary>Is MeshXi free? What&rsquo;s the catch?</summary>
+          <p>Free, no ads, no premium tiers, and we don&rsquo;t sell data — there&rsquo;s no data about you to sell. MeshXi is built by people who think private communication should simply exist.</p>
+        </details>
+        <details class="rv">
+          <summary>When is the iPhone version coming?</summary>
+          <p>It&rsquo;s in development. The App Store build is marked &ldquo;coming soon&rdquo; above — Android and iPhone users will chat seamlessly the day it lands.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-band">
+    <div class="wrap">
+      <span class="tag rv" style="justify-content:center;display:flex">LINK/ESTABLISHED</span>
+      <h2 class="rv">Be reachable. <span class="grad-ink">Always.</span></h2>
+      <p class="lede rv">Install MeshXi today — and the next time the network dies, you won&rsquo;t.</p>
+      <div class="badges rv">
+        <a class="badge play" href="https://play.google.com/store/apps/details?id=com.meshxi.app" aria-label="Get MeshXi on Google Play">
+          <svg class="b-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#2DD4BF" d="M3.6 1.8 13.9 12 3.6 22.2c-.4-.3-.6-.8-.6-1.4V3.2c0-.6.2-1.1.6-1.4Z"/><path fill="#7C6CF6" d="m17.4 8.5-3.5 3.5 3.5 3.5 3.9-2.2c1-.6 1-1.9 0-2.5l-3.9-2.3Z"/><path fill="#5EEAD4" d="M13.9 12 3.6 1.8c.3-.2.8-.3 1.3 0l12.5 6.7-3.5 3.5Z"/><path fill="#A78BFA" d="m13.9 12 3.5 3.5-12.5 6.7c-.5.3-1 .2-1.3 0L13.9 12Z"/></svg>
+          <span><span class="b-top">Get it on</span><br><span class="b-name">Google Play</span></span>
+        </a>
+        <span class="badge ios" aria-label="App Store version coming soon">
+          <span class="soon">COMING SOON</span>
+          <svg class="b-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#94A3B8" d="M16.4 12.9c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.9-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3.1 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.7-3.8ZM14 5.6c.7-.8 1.1-1.9 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/></svg>
+          <span><span class="b-top">Soon on the</span><br><span class="b-name">App Store</span></span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap f-row">
+    <a class="logo" href="#top" aria-label="MeshXi">
+      <svg viewBox="0 0 64 64" aria-hidden="true" style="width:24px;height:24px"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#101D31"/><circle cx="18" cy="44" r="5" fill="url(#lg2)"/><circle cx="32" cy="20" r="5" fill="url(#lg2)"/><circle cx="46" cy="44" r="5" fill="url(#lg2)"/><path d="M18 44 32 20 46 44" stroke="url(#lg2)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      MeshXi
+    </a>
+    <nav class="f-links">
+      <a href="https://play.google.com/store/apps/details?id=com.meshxi.app">Download</a>
+      <a href="https://meshxi-relay.meshxi.workers.dev/privacy">Privacy Policy</a>
+      <a href="mailto:keturaaj@gmail.com">Contact</a>
+    </nav>
+    <div>
+      <span class="f-status"><i></i>MESH STATUS: ONLINE</span>
+      <p class="f-copy">© <span id="yr">2026</span> MeshXi · <span class="mono">meshxi.in</span> · Proudly built in India</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* mobile nav */
+  var btn=document.getElementById("menuBtn"),links=document.getElementById("navLinks");
+  btn.addEventListener("click",function(){
+    var open=links.classList.toggle("open");
+    btn.setAttribute("aria-expanded",open?"true":"false");
+  });
+  links.addEventListener("click",function(e){
+    if(e.target.tagName==="A"){links.classList.remove("open");btn.setAttribute("aria-expanded","false");}
+  });
+
+  /* year */
+  document.getElementById("yr").textContent=new Date().getFullYear();
+
+  /* scroll progress */
+  var prog=document.getElementById("prog");
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    prog.style.width=(max>0?(h.scrollTop/max)*100:0)+"%";
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});
+  onScroll();
+
+  /* scroll reveal with stagger */
+  var rv=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window){
+    var pend=[];var flushT=null;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){pend.push(e.target);io.unobserve(e.target);}
+      });
+      if(!flushT){
+        flushT=setTimeout(function(){
+          pend.forEach(function(el,i){
+            el.style.transitionDelay=Math.min(i*70,420)+"ms";
+            el.classList.add("in");
+          });
+          pend=[];flushT=null;
+        },40);
+      }
+    },{threshold:.12});
+    rv.forEach(function(el){io.observe(el);});
+  }else{
+    rv.forEach(function(el){el.classList.add("in");});
+  }
+  /* belt & suspenders: whatever the browser, nothing may stay invisible */
+  setTimeout(function(){
+    rv.forEach(function(el){
+      if(!el.classList.contains("in")){
+        var r=el.getBoundingClientRect();
+        if(r.top<window.innerHeight&&r.bottom>0)el.classList.add("in");
+      }
+    });
+  },1200);
+  window.addEventListener("scroll",function(){
+    rv.forEach(function(el){
+      if(!el.classList.contains("in")){
+        var r=el.getBoundingClientRect();
+        if(r.top<window.innerHeight*.95)el.classList.add("in");
+      }
+    });
+  },{passive:true});
+
+  /* card cursor glow */
+  document.addEventListener("pointermove",function(e){
+    var c=e.target.closest?e.target.closest(".card"):null;
+    if(!c)return;
+    var r=c.getBoundingClientRect();
+    c.style.setProperty("--mx",(e.clientX-r.left)+"px");
+    c.style.setProperty("--my",(e.clientY-r.top)+"px");
+  },{passive:true});
+
+  /* phone chat sequence — plays once when the phone scrolls into view */
+  var phone=document.getElementById("phone");
+  if(phone){
+    var seq=phone.querySelectorAll("[data-seq]");
+    function play(){
+      var delays=[300,900,1900,2700,3900,4900];
+      seq.forEach(function(el,i){
+        setTimeout(function(){
+          if(el.classList.contains("typing")&&i<seq.length-0){
+            el.classList.add("show");
+            setTimeout(function(){el.style.display="none";},1150);
+          }else{
+            el.classList.add("show");
+          }
+        },reduced?0:delays[i]||i*800);
+      });
+    }
+    if("IntersectionObserver" in window){
+      var pio=new IntersectionObserver(function(es){
+        es.forEach(function(e){if(e.isIntersecting){play();pio.disconnect();}});
+      },{threshold:.35});
+      pio.observe(phone);
+    }else{play();}
+  }
+
+  /* stat count-up */
+  var counts=document.querySelectorAll(".count");
+  function animateCount(el){
+    var to=parseInt(el.getAttribute("data-to"),10)||0;
+    if(reduced||to===0){el.textContent=String(to);return;}
+    var start=null,dur=1100;
+    function tick(ts){
+      if(!start)start=ts;
+      var p=Math.min((ts-start)/dur,1);
+      p=1-Math.pow(1-p,3);
+      el.textContent=String(Math.round(to*p));
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if("IntersectionObserver" in window){
+    var cio=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){animateCount(e.target);cio.unobserve(e.target);}});
+    },{threshold:.6});
+    counts.forEach(function(el){cio.observe(el);});
+  }else{
+    counts.forEach(function(el){el.textContent=el.getAttribute("data-to");});
+  }
+
+  /* hero mesh constellation */
+  var cv=document.getElementById("mesh");
+  if(cv&&cv.getContext){
+    var ctx=cv.getContext("2d"),W,H,pts=[],N;
+    function size(){
+      var r=cv.parentElement.getBoundingClientRect();
+      var dpr=Math.min(window.devicePixelRatio||1,2);
+      W=r.width;H=r.height;
+      cv.width=W*dpr;cv.height=H*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      N=Math.max(24,Math.min(60,Math.floor(W/28)));
+      pts=[];
+      for(var i=0;i<N;i++){
+        pts.push({x:Math.random()*W,y:Math.random()*H,
+          vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35});
+      }
+    }
+    function frame(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<N;i++){
+        var p=pts[i];
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>W)p.vx*=-1;
+        if(p.y<0||p.y>H)p.vy*=-1;
+      }
+      for(var a=0;a<N;a++){
+        for(var b=a+1;b<N;b++){
+          var dx=pts[a].x-pts[b].x,dy=pts[a].y-pts[b].y;
+          var d2=dx*dx+dy*dy;
+          if(d2<16900){
+            var al=1-Math.sqrt(d2)/130;
+            ctx.strokeStyle="rgba(45,212,191,"+(al*.22).toFixed(3)+")";
+            ctx.lineWidth=1;
+            ctx.beginPath();ctx.moveTo(pts[a].x,pts[a].y);ctx.lineTo(pts[b].x,pts[b].y);ctx.stroke();
+          }
+        }
+      }
+      for(var j=0;j<N;j++){
+        ctx.fillStyle="rgba(45,212,191,.45)";
+        ctx.beginPath();ctx.arc(pts[j].x,pts[j].y,1.6,0,6.2832);ctx.fill();
+      }
+      if(!reduced)requestAnimationFrame(frame);
+    }
+    size();frame();
+    var rt;
+    window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){size();if(reduced)frame();},150);});
+  }
+})();
+</script>
+</body>
+</html>
