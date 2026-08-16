@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — MeshXi</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A1220">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232DD4BF'/%3E%3Cstop offset='1' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230A1220'/%3E%3Ccircle cx='18' cy='44' r='5' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='20' r='5' fill='url(%23g)'/%3E%3Ccircle cx='46' cy='44' r='5' fill='url(%23g)'/%3E%3Cpath d='M18 44 32 20 46 44' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#0A1220; --surface:#111D31; --line:#223350;
+    --teal:#2DD4BF; --text:#E9EFF8; --muted:#94A3B8; --faint:#64748B;
+    --grad:linear-gradient(100deg,#2DD4BF 0%,#7C6CF6 100%);
+    --mono:ui-monospace,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--ink);color:var(--text);font-family:var(--sans);
+    min-height:100vh;display:grid;place-items:center;padding:32px;text-align:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .orb{position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.4;
+       background:radial-gradient(circle,rgba(45,212,191,.32),transparent 65%);top:-160px;left:-120px}
+  .box{position:relative;max-width:520px}
+  .code{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--teal);margin-bottom:18px}
+  h1{font-size:clamp(30px,6vw,46px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:14px;text-wrap:balance}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  p{color:var(--muted);font-size:16.5px;line-height:1.65;margin-bottom:28px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  a.b{
+    text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border-radius:999px;
+    background:var(--grad);color:#07131f;box-shadow:0 6px 22px rgba(45,212,191,.3);
+  }
+  a.g{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
+  a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="orb" aria-hidden="true"></div>
+<div class="box">
+  <p class="code">ERROR/404 · ROUTE NOT FOUND</p>
+  <h1>This page is <span class="grad">out of range</span>.</h1>
+  <p>The link you followed doesn&rsquo;t exist here. Unlike your messages, this one really couldn&rsquo;t be delivered.</p>
+  <div class="btns">
+    <a class="b" href="/">Go to homepage</a>
+    <a class="b g" href="https://play.google.com/store/apps/details?id=com.meshxi.app">Get the app</a>
+  </div>
+</div>
+</body>
+</html>
