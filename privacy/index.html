@@ -91,20 +91,35 @@
 
 <main class="wrap">
   <p class="key">
-    <b>MeshXi has no accounts.</b> We never ask for your name, phone number or email,
-    we run no advertising or analytics, and we cannot read your messages.
+    <b>MeshXi has no accounts and no server that stores your chats.</b> We never ask for your
+    name, phone number or email. We run no advertising and no analytics. And we cannot read,
+    sell or hand over your history — because we do not have it. It is on your phone, not with us.
+  </p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li><span><b>We have no server that stores your chats.</b> Not your messages, not your photos, not your contacts, not a record of who you talk to. There is no database of you anywhere on our side.</span></li>
+    <li><span><b>So we cannot sell it, leak it or hand it over.</b> Not to an advertiser, not to a buyer, not to anyone who comes asking. You cannot give away what you never had.</span></li>
+    <li><span><b>You are anonymous from the first second.</b> No phone number, no email, no real name. Your phone makes up a short code name for you, and that is your whole identity here.</span></li>
+    <li><span><b>Your chats live on your phone only</b>, locked behind your PIN or fingerprint. Delete the app, or use Panic delete, and they are gone.</span></li>
+    <li><span><b>Two phones near each other need no internet at all.</b> Over Bluetooth or Wi-Fi your messages go straight from one phone to the other, with no company in the middle — ours included.</span></li>
+    <li><span><b>No ads, no trackers, no analytics.</b> Nothing inside the app is watching what you do.</span></li>
+  </ul>
+  <p>
+    Everything below says the same thing more carefully, including the parts that are not
+    perfect. We would rather tell you those than let you assume something that is not true.
   </p>
 
   <h2>What identifies you</h2>
   <p>
-    On first launch the app generates a cryptographic key pair on your device and derives a
-    short random handle from it (for example <code>shvhcQ</code>). That is your whole identity.
-    The private key never leaves your phone.
+    The first time you open the app, your phone creates a private key for you and turns it into
+    a short code name (for example <code>shvhcQ</code>). That code name is your whole identity
+    here. The private half never leaves your phone, and we never see it.
   </p>
 
   <h2>What we can and cannot see</h2>
   <ul>
-    <li><span><b>Private messages, photos, files and calls are end-to-end encrypted.</b> Our relay forwards sealed bytes it cannot open, and call media (WebRTC DTLS-SRTP) is encrypted between the two phones.</span></li>
+    <li><span><b>Private messages, photos, files and calls are end-to-end encrypted.</b> Our relay is a plain forwarder: it passes along sealed bytes it cannot open, and keeps nothing. Call audio and video is scrambled directly between the two phones, so nobody in between — us included — can listen in.</span></li>
     <li><span><b>The relay briefly holds queued messages</b> — still encrypted, including any photo, file, voice note or SOS alert — when the recipient is offline, and deletes them the moment they are delivered.</span></li>
     <li><span><b>We keep no call logs</b>, no message history, no contact lists, no profile, and no advertising or analytics identifiers.</span></li>
     <li><span><b>Offline conversations never touch a server at all.</b> Messages carried over Bluetooth or Wi-Fi Direct travel straight between phones; relaying phones move sealed envelopes they cannot open.</span></li>
@@ -112,17 +127,19 @@
 
   <h2>Tor is built in</h2>
   <p>
-    MeshXi ships a real Tor daemon inside the app. There is nothing to install, no account,
-    and no setting: once it has built a circuit, everything the app sends over the internet
-    goes through Tor, so the relay sees a Tor exit instead of your IP address. While Tor is
-    still starting up the app connects directly and tells you on screen which route is in use.
+    MeshXi has the real Tor software built in. There is nothing to install, no account and no
+    switch to find: once it is ready, everything the app sends over the internet goes through
+    Tor, so our relay sees Tor instead of your internet address — the number that shows
+    roughly where in the world you are. While Tor is still starting up, the app connects the
+    normal way and tells you on screen which route it is using.
   </p>
   <p>
     Said plainly, because a privacy claim that overpromises is worse than none: Tor is run by
-    the Tor network, not by us &mdash; we operate none of those nodes and receive nothing from
-    them. Bluetooth and Wi‑Fi Direct never touch the internet, so Tor is not involved there.
-    And voice and video call media is peer-to-peer, so a call still reveals your IP address to
-    the person you are calling; the app warns you rather than pretending otherwise.
+    the Tor project and volunteers around the world, not by us, and we get nothing back from
+    it. Bluetooth and Wi-Fi Direct never touch the internet at all, so Tor has no part to play
+    there. And a voice or video call joins the two phones directly, which means the person you
+    are calling can still see your internet address. The app warns you instead of pretending
+    otherwise.
   </p>
 
   <h2>World Chat is public</h2>
@@ -135,9 +152,9 @@
 
   <h2>Data stored on your phone</h2>
   <p>
-    Messages, contacts and media live in an encrypted database (SQLCipher, AES-256) on your
-    device, locked by your PIN or biometrics. <b>Panic delete</b> in Settings erases all of it
-    permanently.
+    Your messages, contacts and media are kept in a locked, encrypted store on your own device,
+    opened only by your PIN or your fingerprint. <b>Panic delete</b> in Settings erases every
+    bit of it, permanently — and there is no copy anywhere else to bring it back from.
   </p>
 
   <h2>Permissions and why</h2>
@@ -151,8 +168,11 @@
 
   <h2>Sharing</h2>
   <p>
-    We do not sell, rent or share your data with anyone. No third-party advertising,
-    attribution or analytics SDK is included in the app.
+    <b>We do not sell your data — but the honest answer is stronger than that: we do not
+    have it.</b> There is no account, no profile, no message history and no contact list on our
+    side, so there is nothing for us to sell, rent, share, or lose in a breach. If someone
+    demanded your chats from us tomorrow, we could not produce them. The app also carries no
+    advertising, attribution or analytics code from anyone else.
   </p>
 
   <h2>Children</h2>
