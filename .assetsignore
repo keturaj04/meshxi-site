@@ -1,0 +1,8 @@
+# Files in public/ that must NEVER be served.
+#
+# public/ is itself the git working tree of the meshxi-site repo, so without
+# this a `wrangler deploy` publishes .git/ as static assets — the full object
+# store, the reflog, and .git/config with the author's name and email in it.
+# (GitHub Pages refuses to serve .git; the Worker mirror happily did.)
+.git
+.git/**
