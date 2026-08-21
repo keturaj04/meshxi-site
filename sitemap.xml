@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://meshxi.in/</loc><lastmod>2026-08-18</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://meshxi.in/globe/</loc><lastmod>2026-08-21</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://meshxi.in/privacy/</loc><lastmod>2026-08-18</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
 </urlset>
