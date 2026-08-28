@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room invitation — MeshXi</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A1220">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232DD4BF'/%3E%3Cstop offset='1' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230A1220'/%3E%3Ccircle cx='18' cy='44' r='5' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='20' r='5' fill='url(%23g)'/%3E%3Ccircle cx='46' cy='44' r='5' fill='url(%23g)'/%3E%3Cpath d='M18 44 32 20 46 44' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#0A1220; --surface:#111D31; --line:#223350;
+    --teal:#2DD4BF; --text:#E9EFF8; --muted:#94A3B8; --faint:#64748B;
+    --grad:linear-gradient(100deg,#2DD4BF 0%,#7C6CF6 100%);
+    --mono:ui-monospace,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--ink);color:var(--text);font-family:var(--sans);
+    min-height:100vh;display:grid;place-items:center;padding:32px 22px;text-align:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .orb{position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.4;
+       background:radial-gradient(circle,rgba(45,212,191,.32),transparent 65%);top:-160px;left:-120px}
+  .box{position:relative;max-width:520px;width:100%}
+  .code{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--teal);margin-bottom:18px}
+  h1{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:14px;text-wrap:balance}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  p{color:var(--muted);font-size:16.5px;line-height:1.65;margin-bottom:26px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+  a.b{
+    text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border-radius:999px;
+    background:var(--grad);color:#07131f;box-shadow:0 6px 22px rgba(45,212,191,.3);
+  }
+  a.g{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
+  a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .after{font-size:14px;color:var(--faint);margin:-6px 0 24px}
+  .after strong{color:var(--muted);font-weight:600}
+  .note{
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--surface);
+    text-align:left;color:var(--faint);font-size:13.5px;line-height:1.6;
+  }
+  .note strong{color:var(--muted);font-weight:600}
+  .steps{text-align:left;color:var(--muted);font-size:15px;line-height:1.7;margin:0 0 26px 18px}
+  .steps li{margin-bottom:6px}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div class="orb" aria-hidden="true"></div>
+<div class="box">
+
+  <!-- Shown when the address carries an invitation. -->
+  <div id="has" hidden>
+    <p class="code">ROOM INVITATION</p>
+    <h1>Someone invited you to a <span class="grad">room</span>.</h1>
+    <p>Open it in MeshXi to see what the room is and decide whether to join. Nothing happens until you say so there.</p>
+    <div class="btns">
+      <a class="b" id="open" href="#">Open in MeshXi</a>
+      <a class="b g" href="https://play.google.com/store/apps/details?id=com.meshxi.app">Install MeshXi &mdash; free</a>
+    </div>
+    <p class="after">Don&rsquo;t have it yet? Install it, then <strong>open this same link again</strong>
+      &mdash; the invitation is in the link, not in the app, so it will be waiting.</p>
+    <div class="note">
+      <strong>This page was never told what the invitation says.</strong>
+      The part after the <code>#</code> in the address stays in your browser &mdash; it is not sent to
+      this site, so meshxi.in cannot know which room you were invited to, who invited you, or the
+      code itself. Only your phone reads it.
+    </div>
+  </div>
+
+  <!-- Shown when the address has no invitation in it. -->
+  <div id="none" hidden>
+    <p class="code">INVITATION INCOMPLETE</p>
+    <h1>This link is <span class="grad">missing its invitation</span>.</h1>
+    <p>An invitation link carries its code after a <code>#</code>. Some apps cut that part off when
+      the link is forwarded, and what is left cannot open anything.</p>
+    <ol class="steps">
+      <li>Ask for the invitation again, and open it directly rather than forwarding it.</li>
+      <li>Or ask for the code itself and use <strong>Paste an invite</strong> in MeshXi.</li>
+    </ol>
+    <div class="btns">
+      <a class="b" href="https://play.google.com/store/apps/details?id=com.meshxi.app">Install MeshXi &mdash; free</a>
+      <a class="b g" href="/">Go to meshxi.in</a>
+    </div>
+  </div>
+
+</div>
+<script>
+  // The invitation lives in the fragment, and the fragment is never sent to a
+  // server. That is the whole reason the link is shaped this way: this page
+  // is served without the site ever being told which room it is for.
+  //
+  // So the reading happens here, in the browser, and the only place the token
+  // goes is straight back out to the app.
+  (function () {
+    var raw = (location.hash || '').replace(/^#/, '').trim();
+    // Only what an invitation is made of. Anything else is not one, and
+    // handing arbitrary text to a scheme handler is not a thing to do.
+    var ok = raw.length >= 24 && /^[A-Za-z0-9\-_=]+$/.test(raw);
+    if (ok) {
+      var link = 'meshxi://join#' + raw;
+      document.getElementById('open').setAttribute('href', link);
+      document.getElementById('has').hidden = false;
+      // No automatic jump. A page that throws you at another app the moment
+      // it loads is indistinguishable from one doing it without being asked,
+      // and browsers increasingly refuse it anyway. The button is the offer.
+    } else {
+      document.getElementById('none').hidden = false;
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,8 +1,9 @@
-# Files in public/ that must NEVER be served.
+# Never publish the repository itself.
 #
-# public/ is itself the git working tree of the meshxi-site repo, so without
-# this a `wrangler deploy` publishes .git/ as static assets — the full object
-# store, the reflog, and .git/config with the author's name and email in it.
-# (GitHub Pages refuses to serve .git; the Worker mirror happily did.)
+# `public/` IS the git working tree of the site repo, so a plain asset upload
+# once put `/.git/config`, `/.git/HEAD` and the whole object store on the open
+# web — the config carrying a real name and email. GitHub Pages 404s `.git`;
+# the Worker mirror did not. This file is the only thing standing between the
+# repo and anybody who asks for it.
 .git
 .git/**

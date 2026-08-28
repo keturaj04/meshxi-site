@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.meshxi.app",
+      "sha256_cert_fingerprints": [
+        "B7:04:D9:78:15:50:4E:7C:10:04:C4:17:C0:BB:0C:49:12:FF:4A:44:92:69:2A:FE:B8:65:D4:3F:FE:BB:26:00"
+      ]
+    }
+  }
+]
