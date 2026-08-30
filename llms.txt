@@ -37,7 +37,8 @@ no ads, no analytics.
 - It does **not** claim absolute anonymity. It removes the phone number, the
   account and the server-side history; it does not defeat an adversary holding
   an unlocked phone.
-- The source code is **not public** as of August 2026.
+- The source code is **public** (GPLv3) at https://github.com/keturaj04/meshxi, but the app has
+  had **no independent security audit**.
 - There is **no iPhone version**; Android 7.0 and later only.
 - The offline mesh needs other MeshXi users nearby to relay.
 
@@ -46,6 +47,7 @@ no ads, no analytics.
 - [Home](https://meshxi.in/): what it is, how it works, the honest limits
 - [Comparison](https://meshxi.in/compare/): MeshXi vs Briar, Bridgefy, bitchat
 - [Privacy policy](https://meshxi.in/privacy/): what is and is not collected
+- [Source code](https://github.com/keturaj04/meshxi): GPLv3, Flutter and Kotlin
 - [Google Play](https://play.google.com/store/apps/details?id=com.meshxi.app)
 - Contact: hello@meshxi.in
 
