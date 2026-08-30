@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeshXi vs Briar, Bridgefy and bitchat - offline messenger comparison</title>
+<meta name="description" content="An honest comparison of offline mesh messengers: MeshXi, Briar, Bridgefy and bitchat. What each carries over Bluetooth, whether it needs an account, and what none of them can do.">
+<meta name="theme-color" content="#0A1220">
+<link rel="canonical" href="https://meshxi.in/compare/">
+<meta property="og:title" content="MeshXi vs Briar, Bridgefy and bitchat">
+<meta property="og:description" content="Which offline messenger does what - compared honestly, limits included.">
+<meta property="og:url" content="https://meshxi.in/compare/">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232DD4BF'/%3E%3Cstop offset='1' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230A1220'/%3E%3Ccircle cx='18' cy='44' r='5' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='20' r='5' fill='url(%23g)'/%3E%3Ccircle cx='46' cy='44' r='5' fill='url(%23g)'/%3E%3Cpath d='M18 44 32 20 46 44' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#0A1220; --ink-2:#0D1626; --surface:#111D31; --line:#223350;
+    --teal:#2DD4BF; --violet:#8B5CF6; --amber:#F5B84C;
+    --text:#E9EFF8; --muted:#94A3B8; --faint:#64748B;
+    --grad:linear-gradient(100deg,#2DD4BF 0%,#7C6CF6 100%);
+    --mono:ui-monospace,"Cascadia Code","JetBrains Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"Noto Sans",Roboto,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:var(--teal)}
+  a:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
+  ::selection{background:rgba(45,212,191,.25)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+
+  header{border-bottom:1px solid var(--line);background:rgba(10,18,32,.85);backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
+  .nav{display:flex;align-items:center;gap:14px;height:66px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--text);text-decoration:none;letter-spacing:-.01em}
+  .logo svg{width:28px;height:28px}
+  .back{margin-left:auto;font-size:14.5px;font-weight:600;text-decoration:none;color:var(--muted)}
+  .back:hover{color:var(--text)}
+
+  .head{padding:56px 0 34px}
+  .tag{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--teal);display:inline-flex;align-items:center;gap:8px;margin-bottom:14px}
+  .tag::before{content:"";width:22px;height:1px;background:var(--teal);opacity:.6}
+  h1{font-size:clamp(30px,5vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+  .sub{color:var(--faint);font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;margin-top:12px}
+
+  .key{
+    margin:6px 0 44px;padding:22px 24px;border-radius:16px;font-size:16.5px;
+    background:linear-gradient(var(--surface),var(--surface)) padding-box,
+               linear-gradient(150deg,rgba(45,212,191,.6),#223350 55%,rgba(124,108,246,.5)) border-box;
+    border:1px solid transparent;
+  }
+  .key b{color:var(--text)}
+
+  main{padding-bottom:70px}
+  h2{
+    font-size:19.5px;font-weight:700;letter-spacing:-.01em;margin:40px 0 10px;
+    padding-left:14px;border-left:3px solid var(--teal);text-wrap:balance;
+  }
+  p{color:var(--muted);margin-bottom:12px}
+  ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin:6px 0 12px}
+  li{color:var(--muted);display:flex;gap:12px}
+  li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);flex:none;margin-top:11px}
+  li b,p b{color:var(--text);font-weight:600}
+  code{font-family:var(--mono);font-size:14px;background:var(--ink-2);border:1px solid var(--line);padding:1px 7px;border-radius:6px;color:var(--teal)}
+
+  .contact{
+    margin-top:44px;padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--ink-2);
+  }
+  .contact h2{margin:0 0 8px}
+  .contact a{font-weight:600}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 44px;color:var(--faint);font-size:13.5px}
+  .f-row{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+  .f-links{display:flex;gap:20px;flex-wrap:wrap}
+  .f-links a{color:var(--muted);font-size:14px;text-decoration:none}
+  .f-links a:hover{color:var(--text)}
+  .mono{font-family:var(--mono);font-size:12px}
+</style>
+
+<style>
+  .wrap{max-width:900px}
+  .tbl{overflow-x:auto;margin:18px 0 8px;border:1px solid var(--line);border-radius:14px}
+  table{border-collapse:collapse;width:100%;min-width:660px;font-size:15px}
+  th,td{padding:13px 15px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--ink-2);color:var(--text);font-weight:700;font-size:14px;letter-spacing:.02em}
+  tbody th{color:var(--text);font-weight:600;white-space:nowrap}
+  td{color:var(--muted)}
+  tr:last-child th,tr:last-child td{border-bottom:none}
+  .yes{color:var(--teal);font-weight:600}
+  .no{color:var(--faint)}
+  .note{font-size:13.5px;color:var(--faint);margin:4px 0 30px}
+  .cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:18px 0 8px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .card h3{font-size:16.5px;margin-bottom:8px;color:var(--text)}
+  .card p{font-size:14.5px;margin:0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#101D31"/><circle cx="18" cy="44" r="5" fill="url(#lg)"/><circle cx="32" cy="20" r="5" fill="url(#lg)"/><circle cx="46" cy="44" r="5" fill="url(#lg)"/><path d="M18 44 32 20 46 44" stroke="url(#lg)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      MeshXi
+    </a>
+    <a class="back" href="/">&larr; Back to site</a>
+  </div>
+</header>
+
+<div class="wrap head">
+  <span class="tag">COMPARE/OFFLINE MESSENGERS</span>
+  <h1>MeshXi vs Briar, Bridgefy and bitchat</h1>
+  <p class="sub">WRITTEN BY THE MESHXI DEVELOPER &middot; LAST UPDATED 30 AUGUST 2026</p>
+</div>
+
+<main class="wrap">
+
+  <div class="key">
+    <b>Written by the people who make one of these, so read it with that in
+    mind.</b> The rule followed here: every row is something you can check for
+    yourself, and where a rival is better it says so. Found a mistake?
+    <a href="mailto:hello@meshxi.in">Tell us</a> and it gets corrected.
+  </div>
+
+  <h2>The short answer</h2>
+  <p>All four let phones talk with no internet. They differ in what they will
+  carry over Bluetooth, what they ask of you to sign up, and how much of the
+  code you are allowed to read.</p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Pick Briar</h3>
+      <p>If auditable open source matters to you more than anything else. It is
+      the most scrutinised app here and that is worth a great deal.</p>
+    </div>
+    <div class="card">
+      <h3>Pick MeshXi</h3>
+      <p>If you want photos and voice notes to survive the offline hop, calls
+      with no server on your own Wi-Fi, and Tor already switched on.</p>
+    </div>
+    <div class="card">
+      <h3>Pick bitchat</h3>
+      <p>If you want the smallest, simplest thing that sends text over
+      Bluetooth and does nothing else.</p>
+    </div>
+  </div>
+
+  <h2>Side by side</h2>
+  <div class="tbl">
+  <table>
+    <thead>
+      <tr><th>&nbsp;</th><th>MeshXi</th><th>Briar</th><th>Bridgefy</th><th>bitchat</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Works with no internet</th>
+        <td class="yes">Yes &mdash; Bluetooth mesh + Wi&#8209;Fi Direct</td>
+        <td class="yes">Yes &mdash; Bluetooth, Wi-Fi, Tor</td>
+        <td class="yes">Yes &mdash; Bluetooth mesh</td>
+        <td class="yes">Yes &mdash; Bluetooth mesh</td></tr>
+      <tr><th>Account or phone number</th>
+        <td class="yes">Neither</td>
+        <td class="yes">Neither</td>
+        <td>Has required a phone number</td>
+        <td class="yes">Neither</td></tr>
+      <tr><th>Photos over Bluetooth</th>
+        <td class="yes">Yes &mdash; shrunk to about 256&nbsp;KB to fit</td>
+        <td class="no">Text and small attachments</td>
+        <td class="no">Text-focused</td>
+        <td class="no">Text only</td></tr>
+      <tr><th>Voice notes offline</th>
+        <td class="yes">Yes</td><td class="no">No</td>
+        <td class="no">No</td><td class="no">No</td></tr>
+      <tr><th>Calls with no internet</th>
+        <td class="yes">Yes, on shared Wi-Fi or Wi&#8209;Fi Direct</td>
+        <td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+      <tr><th>Tor</th>
+        <td class="yes">Bundled, always on, obfs4 + Snowflake bridges</td>
+        <td class="yes">Bundled, core to the design</td>
+        <td class="no">No</td><td class="no">No</td></tr>
+      <tr><th>Open source</th>
+        <td class="no">Not yet &mdash; the honest weak point here</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="yes">Yes</td></tr>
+      <tr><th>Platforms</th>
+        <td>Android 7.0+</td><td>Android, desktop</td>
+        <td>Android, iOS</td><td>iOS, Android</td></tr>
+      <tr><th>Price</th>
+        <td class="yes">Free, no ads</td><td class="yes">Free</td>
+        <td>Free tier</td><td class="yes">Free</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Details of the other apps come from their own public
+  documentation and change over time &mdash; check theirs before deciding.
+  Everything in the MeshXi column is visible inside the app itself, on the
+  Channels screen.</p>
+
+  <h2>Where MeshXi is genuinely behind</h2>
+  <ul>
+    <li><span><b>The source is not public.</b> Briar and bitchat can be read and
+    audited by anyone. MeshXi cannot be, yet &mdash; and for a security app that
+    is a real argument against it, not a footnote.</span></li>
+    <li><span><b>No iPhone version.</b> Bridgefy and bitchat have one. The
+    offline parts need real iOS work and there is no date to promise.</span></li>
+    <li><span><b>Fewer users means a thinner mesh.</b> Every app here is only as
+    good offline as the number of nearby phones running it.</span></li>
+  </ul>
+
+  <h2>What none of them can do</h2>
+  <p>Any app promising otherwise is worth closing:</p>
+  <ul>
+    <li><span>Bluetooth reaches <b>tens of metres per hop</b>. Range comes only
+    from other phones in between relaying it. There is no long-range radio in
+    your phone.</span></li>
+    <li><span>Make you <b>anonymous in an absolute sense</b>. These apps remove
+    the account, the phone number and the server holding your history. They do
+    not defeat someone holding your unlocked phone.</span></li>
+    <li><span>Work with <b>nobody else nearby</b>. An offline mesh with one user
+    is one phone in a field.</span></li>
+  </ul>
+
+  <div class="contact">
+    <h2>Try MeshXi</h2>
+    <p>Free, no ads, no account.
+    <a href="https://play.google.com/store/apps/details?id=com.meshxi.app">Get it on Google Play</a>
+    &middot; <a href="/">read the details first</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap f-row">
+    <nav class="f-links">
+      <a href="/">Home</a>
+      <a href="https://play.google.com/store/apps/details?id=com.meshxi.app">Download</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="mailto:hello@meshxi.in">Contact</a>
+    </nav>
+    <p>&copy; <span id="yr">2026</span> MeshXi &middot; <span class="mono">meshxi.in</span></p>
+  </div>
+</footer>
+
+<script>document.getElementById("yr").textContent=new Date().getFullYear();</script>
+</body>
+</html>

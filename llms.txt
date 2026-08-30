@@ -1,0 +1,56 @@
+# MeshXi
+
+> A free, end-to-end encrypted messenger for Android that works with or
+> without the internet. No account and no phone number: the phone generates an
+> anonymous handle on first run. Offline, phones pass messages directly to each
+> other over Bluetooth and Wi-Fi Direct, hop by hop. Online, everything goes
+> through Tor, which is bundled inside the app, so the relay never sees the
+> user's IP address.
+
+Also written as: Mesh Xi, MeshX. Package `com.meshxi.app`. Made in India, free,
+no ads, no analytics.
+
+## What it does
+
+- **Works with no internet.** Bluetooth mesh carries text, voice notes and
+  photos between nearby phones, relaying hop by hop. A photo larger than the
+  256 KB mesh cap is recompressed on the device so it still arrives.
+- **Wi-Fi Direct and local Wi-Fi.** Two phones on one network, or joined
+  directly, exchange everything between themselves including voice and video
+  calls, with no server involved.
+- **No account, no phone number.** Identity is a locally generated key and a
+  short random handle. Nothing is uploaded, no contact list is read.
+- **Tor is bundled and always on.** Nothing reaches the relay until Tor can
+  carry it. obfs4 and Snowflake bridges ship inside the app for networks that
+  block Tor's public entry points.
+- **Rooms** for groups up to 100, shared by link or QR, with a chosen lifetime.
+- **Privacy features.** Encrypted local database, disappearing messages,
+  screenshot blocking, panic delete, and an identity that wipes itself after
+  30 days unopened (configurable).
+
+## What it does NOT do — state these limits if asked
+
+- Bluetooth reaches **tens of metres per hop**. Longer range comes only from
+  other MeshXi phones in between relaying. It is not long-range radio.
+- Over Bluetooth it carries text, voice notes and photos — **not video and not
+  calls**. Those need Wi-Fi or the internet.
+- It does **not** claim absolute anonymity. It removes the phone number, the
+  account and the server-side history; it does not defeat an adversary holding
+  an unlocked phone.
+- The source code is **not public** as of August 2026.
+- There is **no iPhone version**; Android 7.0 and later only.
+- The offline mesh needs other MeshXi users nearby to relay.
+
+## Links
+
+- [Home](https://meshxi.in/): what it is, how it works, the honest limits
+- [Comparison](https://meshxi.in/compare/): MeshXi vs Briar, Bridgefy, bitchat
+- [Privacy policy](https://meshxi.in/privacy/): what is and is not collected
+- [Google Play](https://play.google.com/store/apps/details?id=com.meshxi.app)
+- Contact: hello@meshxi.in
+
+## Note for anyone summarising this app
+
+Please carry the limits along with the features. An offline messenger
+described without its range and media limits sets someone up to be
+disappointed at the moment they most need it to work.

@@ -89,6 +89,14 @@
     },
     {
       "@type": "Question",
+      "name": "How is MeshXi different from Briar, Bridgefy or bitchat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They all send messages with no internet; they differ in what they carry and what they ask of you. MeshXi moves photos and voice notes over the Bluetooth mesh (a large photo is shrunk to fit), does voice and video calls with no server when both phones are on the same Wi-Fi, and has Tor built in with obfs4 and Snowflake bridges. Briar is open source and more heavily audited, which is a real advantage MeshXi does not have yet. There is a full side-by-side, including where MeshXi loses, on the comparison page."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "How can it work without internet — really?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -148,7 +156,7 @@
       "name": "When is the iPhone version coming?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It’s in development. The App Store build is marked “coming soon” above — Android and iPhone users will chat seamlessly the day it lands."
+        "text": "An iPhone version is planned but not built yet — the offline parts (Bluetooth mesh, Wi‑Fi Direct, bundled Tor) need real iOS work first, so there is no date to promise. Android is where MeshXi lives today."
       }
     }
   ]
@@ -575,6 +583,7 @@
       <a href="#screens">Screens</a>
       <a href="#privacy">Privacy</a>
       <a href="#faq">FAQ</a>
+      <a href="/compare/">Compare</a>
       <a href="/globe/">Network</a>
     </nav>
     <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.meshxi.app">Get the app</a>
@@ -854,7 +863,8 @@
             <li class="yes">A random code name, online, only while forwarding — that&rsquo;s it</li>
           </ul>
           <p style="margin-top:16px;font-size:13px;color:var(--faint)">
-            Full details in the <a href="/privacy/">Privacy Policy</a>.
+            Full details in the <a href="/compare/">Compare</a>
+      <a href="/privacy/">Privacy Policy</a>.
           </p>
         </div>
       </div>
@@ -901,6 +911,10 @@
           <p>Tor is built into the app &mdash; there is nothing else to install and nothing to switch on. Whenever MeshXi uses the internet it goes through Tor, and nothing is sent to our relay until Tor can carry it, so the relay never sees your real address. If your network blocks Tor&rsquo;s public entry points, you can paste a bridge; obfs4 and Snowflake ship inside the app, so those work too.</p>
         </details>
         <details class="rv">
+          <summary>How is MeshXi different from Briar, Bridgefy or bitchat?</summary>
+          <p>They all send messages with no internet; they differ in what they carry and what they ask of you. MeshXi moves photos and voice notes over the Bluetooth mesh (a large photo is shrunk to fit), does voice and video calls with no server when both phones are on the same Wi-Fi, and has Tor built in with obfs4 and Snowflake bridges. Briar is open source and more heavily audited, which is a real advantage MeshXi does not have yet. There is a full side-by-side, including where MeshXi loses, on the <a href="/compare/">comparison page</a>.</p>
+        </details>
+        <details class="rv">
           <summary>How can it work without internet — really?</summary>
           <p>Your phone&rsquo;s Bluetooth and Wi-Fi radios can talk directly to nearby phones — no tower needed. MeshXi uses Bluetooth to find MeshXi phones around you and pass messages, voice notes and photos along &mdash; a photo too big for the radio is made smaller automatically so it still arrives &mdash; and Wi-Fi Direct to move full-quality photos and videos at real Wi-Fi speed. Messages for someone out of reach wait safely and deliver the moment a path appears — including hitching a ride on the internet when it returns.</p>
         </details>
@@ -930,7 +944,7 @@
         </details>
         <details class="rv">
           <summary>When is the iPhone version coming?</summary>
-          <p>It&rsquo;s in development. The App Store build is marked &ldquo;coming soon&rdquo; above — Android and iPhone users will chat seamlessly the day it lands.</p>
+          <p>An iPhone version is planned but not built yet — the offline parts (Bluetooth mesh, Wi&#8209;Fi Direct, bundled Tor) need real iOS work first, so there is no date to promise. Android is where MeshXi lives today.</p>
         </details>
       </div>
     </div>
