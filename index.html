@@ -563,6 +563,39 @@
   .shot figcaption{margin-top:10px;color:var(--muted);font-size:13px;
     line-height:1.35;max-width:236px}
   @media(max-width:640px){.shot,.shot img{width:200px}.shot img{height:400px}}
+
+  /* ---- spacetime showcase ---- */
+  .globecard{
+    position:relative;display:block;border-radius:20px;overflow:hidden;text-decoration:none;
+    border:1px solid var(--line);
+    box-shadow:0 24px 70px rgba(4,10,20,.55), 0 0 0 1px rgba(45,212,191,.05);
+    transition:transform .25s,box-shadow .25s,border-color .25s;
+  }
+  .globecard:hover{transform:translateY(-4px);border-color:#2f4a74;
+    box-shadow:0 34px 90px rgba(4,10,20,.7), 0 0 44px rgba(124,108,246,.18)}
+  .globecard img{display:block;width:100%;height:auto}
+  .globecard .gc-shade{position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 46%,rgba(6,11,20,.88) 96%)}
+  .globecard .gc-row{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;
+    gap:14px;padding:18px 22px;flex-wrap:wrap}
+  .globecard .gc-live{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);
+    font-size:11px;letter-spacing:.14em;color:#4ADE80}
+  .globecard .gc-live i{width:7px;height:7px;border-radius:50%;background:#4ADE80;
+    box-shadow:0 0 10px rgba(74,222,128,.9);animation:gcp 2.2s ease-in-out infinite}
+  @keyframes gcp{50%{opacity:.4}}
+  @media (prefers-reduced-motion: reduce){.globecard .gc-live i{animation:none}.globecard:hover{transform:none}}
+  .globecard .gc-cta{margin-left:auto;font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+    color:var(--ink);background:linear-gradient(100deg,#2DD4BF,#7C6CF6);border-radius:999px;
+    padding:10px 18px;font-weight:700;white-space:nowrap}
+  .globecard .gc-note{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9px;
+    letter-spacing:.12em;color:var(--muted);border:1px dashed #3a557f;border-radius:999px;
+    padding:5px 11px;background:rgba(8,15,27,.7)}
+  @media (max-width:640px){
+    .globecard .gc-note{font-size:7.5px;padding:4px 8px;top:10px;right:10px;letter-spacing:.08em}
+    .globecard .gc-row{padding:10px 12px;gap:9px}
+    .globecard .gc-live{font-size:9px}
+    .globecard .gc-cta{font-size:9.5px;padding:8px 12px;letter-spacing:.06em}
+  }
 </style>
 </head>
 <body>
@@ -780,6 +813,29 @@
           per hop; more MeshXi phones around you = further reach.
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ SPACETIME ============ -->
+  <section id="spacetime">
+    <div class="wrap">
+      <span class="tag rv">LIVE/SPACETIME VIEW</span>
+      <h2 class="rv">Watch the network <span class="grad-ink">breathe</span>.</h2>
+      <p class="lede rv">
+        A living 3D globe of how MeshXi moves messages &mdash; past trails, live routes and
+        projected paths, with a timeline you can rewind and replay. Two counters on it are
+        real; the map itself is simulated in your browser, because MeshXi keeps no location
+        data to draw from. That is the point &mdash; and the page says so itself.
+      </p>
+      <a class="globecard rv" href="/globe/" aria-label="Open the MeshXi spacetime network view">
+        <img src="/shots/spacetime.webp" alt="The MeshXi spacetime view: a 3D globe with network layers, a spacetime log and a scrubbable timeline" width="1200" height="750" loading="lazy" decoding="async">
+        <span class="gc-shade" aria-hidden="true"></span>
+        <span class="gc-note">MAP SIMULATED &middot; COUNTERS LIVE</span>
+        <span class="gc-row">
+          <span class="gc-live"><i></i>RELAY LIVE</span>
+          <span class="gc-cta">EXPLORE THE SPACETIME VIEW &rarr;</span>
+        </span>
+      </a>
     </div>
   </section>
 
