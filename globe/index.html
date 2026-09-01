@@ -571,6 +571,25 @@ const arcP = prog(
 "}");
 const arcL=loc(arcP);
 
+const glowP = prog(
+"attribute float aT;\n"+
+"uniform mat4 uPV; uniform mat4 uM;\n"+
+"uniform vec3 uA; uniform vec3 uB; uniform float uAlt;\n"+
+"uniform vec3 uCamW; uniform float uDPR; uniform float uPt;\n"+
+"varying float vT; varying float vFc;\n"+ARC_FN+
+"void main(){ vT=aT; vec4 w=uM*vec4(arcPoint(aT),1.0); vFc=dot(normalize(w.xyz),normalize(uCamW)); gl_Position=uPV*w; gl_PointSize=uPt*uDPR; }",
+"precision mediump float; varying float vT; varying float vFc;\n"+
+"uniform float uHead; uniform float uTail; uniform float uGlow;\n"+
+"uniform vec3 uC0; uniform vec3 uC1;\n"+
+"void main(){\n"+
+"  if(vT>uHead || vT<uTail || vFc<-0.06) discard;\n"+
+"  vec2 d=gl_PointCoord-0.5; float a=smoothstep(0.5,0.05,length(d));\n"+
+"  float edge=smoothstep(uTail,uTail+0.12,vT)*smoothstep(uHead,uHead-0.05,vT);\n"+
+"  vec3 c=mix(uC0,uC1,vT);\n"+
+"  gl_FragColor=vec4(c*uGlow, 0.26*a*edge*uGlow);\n"+
+"}");
+const glowL=loc(glowP);
+
 const cometP = prog(
 "attribute float aI;\n"+
 "uniform mat4 uPV; uniform mat4 uM;\n"+
@@ -638,7 +657,7 @@ const LAYER={
 const GHOST_C0=[0.36,0.42,0.55], GHOST_C1=[0.42,0.46,0.60];
 const PRED_C0=[0.961,0.722,0.302], PRED_C1=[0.980,0.850,0.560];
 const KEEP_MS=5*60*1000;      // rolling retention: five minutes, in memory only
-const GHOST_S=22;             // how long a finished route lingers as a trail
+const GHOST_S=16;             // how long a finished route lingers as a trail
 
 function jitterNear(ci,deg){
   const c=CITIES[ci];
@@ -647,7 +666,7 @@ function jitterNear(ci,deg){
 }
 function makeEvent(ts){
   const lr=Math.random();
-  const layer = lr<0.42?'net' : lr<0.70?'local' : 'ble';
+  const layer = lr<0.60?'net' : lr<0.82?'local' : 'ble';
   const kr=Math.random();
   const kind = kr<0.68?'msg' : kr<0.88?'media' : 'voice';
   let ai=pickCity(), bi=-1, A=cityVec[ai], B;
@@ -665,16 +684,16 @@ function makeEvent(ts){
   const slow = kind==='media'?1.5 : kind==='voice'?1.25 : 1;
   return {t:ts, ai, bi, A, B, layer, kind,
     alt:(0.05+0.14*(ang/Math.PI)+Math.random()*0.04)*LAYER[layer].altk,
-    grow:(0.9+Math.random()*0.9)*slow, hold:0.7+Math.random()*1.1,
-    fade:0.8+Math.random()*0.5, counted:false, logged:false};
+    grow:(0.9+Math.random()*0.9)*slow, hold:1.8+Math.random()*2.4,
+    fade:1.1+Math.random()*0.7, counted:false, logged:false};
 }
 const events=[];
 { // backfill so the timeline has a past the moment the page opens
   let t=Date.now()-KEEP_MS;
-  while(t<Date.now()){ events.push(makeEvent(t)); t+=900+Math.random()*1600; }
+  while(t<Date.now()){ events.push(makeEvent(t)); t+=200+Math.random()*260; }
   for(const e of events) e.logged=true; // backfill stays out of the log
 }
-const CAP = reduced? (isMobile?7:10) : (isMobile?10:16);
+const CAP = reduced? (isMobile?9:14) : (isMobile?32:60);
 let nextSpawn=Date.now()+400;
 let activityFactor=1;         // nudged by the LIVE relay aggregate, see below
 let routesShown=0;
@@ -965,6 +984,21 @@ function drawArc(e,PV,Mrot,camW,head,tail,glow,c0,c1,dash){
   gl.uniform3fv(arcL.u.uCamW,camW);
   setAttr(arcL.a.aT,arcTBuf,1);
   gl.drawArrays(gl.LINE_STRIP,0,ARC_SEG);
+  if(!dash){
+    gl.useProgram(glowP);
+    gl.uniformMatrix4fv(glowL.u.uPV,false,PV);
+    gl.uniformMatrix4fv(glowL.u.uM,false,Mrot);
+    gl.uniform3fv(glowL.u.uA,e.A);gl.uniform3fv(glowL.u.uB,e.B);
+    gl.uniform1f(glowL.u.uAlt,e.alt);
+    gl.uniform1f(glowL.u.uHead,head);gl.uniform1f(glowL.u.uTail,tail);
+    gl.uniform1f(glowL.u.uGlow,glow);
+    gl.uniform3fv(glowL.u.uC0,c0);gl.uniform3fv(glowL.u.uC1,c1);
+    gl.uniform3fv(glowL.u.uCamW,camW);
+    gl.uniform1f(glowL.u.uDPR,DPR);
+    gl.uniform1f(glowL.u.uPt,glow>0.4?6.5:3.5);
+    setAttr(glowL.a.aT,arcTBuf,1);
+    gl.drawArrays(gl.POINTS,0,ARC_SEG);
+  }
 }
 
 let statT=0, prev=now();
@@ -985,7 +1019,7 @@ function frame(){
     let active=0; for(const e of events){const a=(wall-e.t)/1000;
       if(a>=0&&a<e.grow+e.hold+e.fade)active++;}
     if(active<CAP){const ev=makeEvent(wall);events.push(ev);}
-    const mean=(isMobile?2100:1500)/activityFactor;
+    const mean=(isMobile?450:220)/activityFactor;
     nextSpawn=wall+mean*(0.5+Math.random());
   }
 
@@ -1057,7 +1091,7 @@ function frame(){
       // PAST: a finished route lingers as a dim ghost trail
       const g=(age-total)/GHOST_S;
       if(g<1){
-        const k=0.22*(1-g);
+        const k=0.30*(1-g);
         drawArc(e,PV,Mrot,camW,1,0,k,
           [col.c0[0]*0.4+GHOST_C0[0]*0.6,col.c0[1]*0.4+GHOST_C0[1]*0.6,col.c0[2]*0.4+GHOST_C0[2]*0.6],
           GHOST_C1,false);
