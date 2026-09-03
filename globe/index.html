@@ -226,6 +226,8 @@
     </div>
     <div class="tcard"><small>QUEUED&nbsp;AT&nbsp;RELAY</small><b class="teal" id="s-queued">&hellip;</b>
       <span class="tag live" id="s-queued-tag">LIVE AGGREGATE</span></div>
+    <div class="tcard"><small>HOSTILE&nbsp;FRAMES&nbsp;DROPPED</small><b class="teal" id="s-dropped">&hellip;</b>
+      <span class="tag live" id="s-dropped-tag">LIVE AGGREGATE</span></div>
     <div class="tcard"><small>ROUTES&nbsp;DRAWN</small><b class="violet" id="s-routes">0</b>
       <span class="tag sim">SIMULATED</span></div>
     <div class="tcard"><small>REGIONS&nbsp;SEEDED</small><b class="violet" id="s-regions">0</b>
@@ -333,7 +335,7 @@
       <i>&#9662;</i>
     </div>
     <div class="truth-body">
-      <p><b>Real:</b> the relay-network and queued counters &mdash; live aggregate counts
+      <p><b>Real:</b> the relay-network, queued and hostile-frames-dropped counters &mdash; live aggregate counts
       (shown as rounded bands), the same numbers anyone can read from the relay&rsquo;s
       public health check. They count connections, never people.</p>
       <p><b>Simulated:</b> every dot, route, region and log line &mdash; generated locally in
@@ -835,6 +837,8 @@ const elRelay=document.getElementById('s-relay');
 const elRelayTag=document.getElementById('s-relay-tag');
 const elQueued=document.getElementById('s-queued');
 const elQueuedTag=document.getElementById('s-queued-tag');
+const elDropped=document.getElementById('s-dropped');
+const elDroppedTag=document.getElementById('s-dropped-tag');
 const badge=document.getElementById('badge');
 const badgeTxt=document.getElementById('badgetxt');
 function band(n){return n<=0?'QUIET':n<10?'UNDER 10':'≈'+(Math.round(n/10)*10);}
@@ -850,6 +854,17 @@ async function pollRelay(){
     elRelay.className='green';
     elRelayTag.textContent='ONLINE NOW · LIVE';elRelayTag.className='tag live';
     elQueued.textContent=j.queued<=0?'0':j.queued<5?'UNDER 5':'≈'+(Math.round(j.queued/5)*5);
+    if(elDropped){
+      const d=j.dropped;
+      if(typeof d==='number'){
+        elDropped.textContent=d<=0?'0':d<10?'UNDER 10':'≈'+(Math.round(d/10)*10);
+        elDropped.className='teal';
+        if(elDroppedTag){elDroppedTag.textContent='LIVE AGGREGATE';elDroppedTag.className='tag live';}
+      }else{
+        elDropped.textContent='—';
+        if(elDroppedTag){elDroppedTag.textContent='NOT REPORTED';elDroppedTag.className='tag sim';}
+      }
+    }
     elQueuedTag.textContent='LIVE AGGREGATE';
     badge.className='live';badgeTxt.textContent='RELAY LIVE';
     activityFactor=j.online<=0?0.55:j.online<10?0.8:j.online<50?1.1:1.35;
